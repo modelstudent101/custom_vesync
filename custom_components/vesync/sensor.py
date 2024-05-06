@@ -464,7 +464,7 @@ class VeSyncDryingSensor(VeSyncHumidifierSensorEntity):
             else {}
         )
 
-class VeSyncTempSensor(VeSyncHumidifierSensorEntity):
+class VeSyncTemperatureSensor(VeSyncHumidifierSensorEntity):
     """Representation of current drying mode for a VeSync humidifier."""
 
     def __init__(self, plug, coordinator) -> None:
@@ -488,7 +488,7 @@ class VeSyncTempSensor(VeSyncHumidifierSensorEntity):
 
     @property
     def native_value(self):
-        """Return the drying mode index."""
+        """Return the temperature index."""
         return (
             self.smarthumidifier.temperature
             if hasattr(self.smarthumidifier, "temperature")
@@ -498,7 +498,7 @@ class VeSyncTempSensor(VeSyncHumidifierSensorEntity):
     @property
     def native_unit_of_measurement(self):
         """Return the temperature unit of measurement."""
-        return FAHRENHEIT
+        return TEMP_FAHRENHEIT
 
     @property
     def state_class(self):
