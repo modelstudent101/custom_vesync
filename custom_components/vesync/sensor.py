@@ -81,6 +81,10 @@ def _setup_entities(devices, async_add_entities, coordinator):
             entities.append(VeSyncAirQualityValueSensor(dev, coordinator))
         if has_feature(dev, "details", "filter_life"):
             entities.append(VeSyncFilterLifeSensor(dev, coordinator))
+        if has_feature(dev, "details", "drying_mode"):
+            entities.append(VeSyncFilterDryingModeSensor(dev, coordinator))
+        if has_feature(dev, "details", "temperature"):
+            entities.append(VeSyncTemperatureSensor(dev, coordinator))
 
     async_add_entities(entities, update_before_add=True)
 
@@ -409,3 +413,104 @@ class VeSyncHumiditySensor(VeSyncHumidifierSensorEntity):
     def state_class(self):
         """Return the measurement state class."""
         return SensorStateClass.MEASUREMENT
+
+class VeSyncDryingSensor(VeSyncHumidifierSensorEntity):
+    """Representation of current drying mode for a VeSync humidifier."""
+
+    def __init__(self, plug, coordinator) -> None:
+        """Initialize the VeSync outlet device."""
+        super().__init__(plug, coordinator)
+
+    @property
+    def unique_id(self):
+        """Return unique ID for drying mode sensor on device."""
+        return f"{super().unique_id}-drying-mode"
+
+    @property
+    def name(self):
+        """Return sensor name."""
+        return f"{super().name} drying mode"
+
+    @property
+    def device_class(self):
+        """Return the drying mode device class."""
+        return None
+
+    @property
+    def native_value(self):
+        """Return the drying mode index."""
+        return (
+            self.smarthumidifier.drying_mode
+            if hasattr(self.smarthumidifier, "drying_mode")
+            else self.smarthumidifier.details["drying_mode"]
+        )
+
+    @property
+    def native_unit_of_measurement(self):
+        """Return the unit of measurement."""
+        return None
+
+    @property
+    def state_class(self):
+        """Return the measurement state class."""
+        return SensorStateClass.MEASUREMENT
+
+    @property
+    def state_attributes(self):
+        """Return the state attributes."""
+        return (
+            self.smarthumidifier.details["drying_mode"]
+            if isinstance(self.smarthumidifier.details["drying_mode"], dict)
+            else {}
+        )
+
+class VeSyncTempSensor(VeSyncHumidifierSensorEntity):
+    """Representation of current drying mode for a VeSync humidifier."""
+
+    def __init__(self, plug, coordinator) -> None:
+        """Initialize the VeSync outlet device."""
+        super().__init__(plug, coordinator)
+
+    @property
+    def unique_id(self):
+        """Return unique ID for drying mode sensor on device."""
+        return f"{super().unique_id}-temperature"
+
+    @property
+    def name(self):
+        """Return sensor name."""
+        return f"{super().name} temperature"
+
+    @property
+    def device_class(self):
+        """Return the temperature device class."""
+        return TEMPERATURE
+
+    @property
+    def native_value(self):
+        """Return the drying mode index."""
+        return (
+            self.smarthumidifier.temperature
+            if hasattr(self.smarthumidifier, "temperature")
+            else self.smarthumidifier.details["temperature"]
+        )
+
+    @property
+    def native_unit_of_measurement(self):
+        """Return the temperature unit of measurement."""
+        return FAHRENHEIT
+
+    @property
+    def state_class(self):
+        """Return the temperature state class."""
+        return SensorStateClass.TEMPERATURE
+
+    @property
+    def state_attributes(self):
+        """Return the state attributes."""
+        return (
+            self.smarthumidifier.details["temperature"]
+            if isinstance(self.smarthumidifier.details["temperature"], dict)
+            else {}
+        )
+

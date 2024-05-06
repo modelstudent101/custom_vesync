@@ -25,11 +25,12 @@ VS_MODE_AUTO = "auto"
 VS_MODE_HUMIDITY = "humidity"
 VS_MODE_MANUAL = "manual"
 VS_MODE_SLEEP = "sleep"
+VS_MODE_DRYING = "dryingMode"
 
 VS_TO_HA_ATTRIBUTES = {"humidity": "current_humidity"}
 
 VS_FAN_TYPES = ["VeSyncAirBypass", "VeSyncAir131", "VeSyncVital"]
-VS_HUMIDIFIERS_TYPES = ["VeSyncHumid200300S", "VeSyncHumid200S", "VeSyncHumid1000S"]
+VS_HUMIDIFIERS_TYPES = ["VeSyncHumid200300S", "VeSyncHumid200S", "VeSyncHumid1000S", "Superior6000S"]
 VS_AIRFRYER_TYPES = ["VeSyncAirFryer158"]
 
 

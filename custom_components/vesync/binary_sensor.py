@@ -148,3 +148,21 @@ class VeSyncWaterTankLiftedSensor(VeSyncBinarySensorEntity):
     def is_on(self) -> bool:
         """Return a value indicating whether the Humidifier's water tank is lifted."""
         return self.smarthumidifier.details["water_tank_lifted"]
+
+class VeSyncDryingModeSensor(VeSyncBinarySensorEntity):
+    """Drying Mode Sensor."""
+
+    @property
+    def unique_id(self):
+        """Return unique ID for water tank lifted sensor on device."""
+        return f"{super().unique_id}-drying-mode"
+
+    @property
+    def name(self):
+        """Return sensor name."""
+        return f"{super().name} drying"
+
+    @property
+    def is_on(self) -> bool:
+        """Return a value indicating whether the Humidifier's drying mode is active."""
+        return self.smarthumidifier.details["drying_mode"]

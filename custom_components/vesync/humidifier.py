@@ -5,8 +5,6 @@ from collections.abc import Mapping
 import logging
 from typing import Any
 
-from pyvesync.vesyncfan import VeSyncHumid200300S
-
 from homeassistant.components.humidifier import HumidifierEntity
 from homeassistant.components.humidifier.const import (
     MODE_AUTO,
@@ -19,7 +17,7 @@ from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.dispatcher import async_dispatcher_connect
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from .common import VeSyncDevice
+from .common import VeSyncDevice, has_feature
 from .const import (
     DOMAIN,
     VS_DISCOVERY,
@@ -102,7 +100,7 @@ class VeSyncHumidifierHA(VeSyncDevice, HumidifierEntity):
     _attr_max_humidity = MAX_HUMIDITY
     _attr_min_humidity = MIN_HUMIDITY
 
-    def __init__(self, humidifier: VeSyncHumid200300S, coordinator) -> None:
+    def __init__(self, humidifier, coordinator) -> None:
         """Initialize the VeSync humidifier device."""
         super().__init__(humidifier, coordinator)
         self.smarthumidifier = humidifier
